@@ -14,5 +14,5 @@ Pod::Spec.new do |s|
     }
   s.ios.deployment_target = '7.0'
   s.requires_arc = true
-  s.source_files = 'SearchBox/SearchBarTextField.m','SearchBox/SearchBarTextField.h','SearchBox/UICustomTextField.m','SearchBox/UICustomTextField.h','UIKit/UIKit.h','SearchBox/lock@2x.png','SearchBox/refresh@2x.png','SearchBox/lock@2x.png','SearchBox/unrefresh@2x.png'
+  s.source_files = 'SearchBox/SearchBarTextField.m','SearchBox/SearchBarTextField.h','SearchBox/UICustomTextField.m','SearchBox/UICustomTextField.h','UIKit/UIKit.h','SearchBox/lupa@2x.png','SearchBox/refresh@2x.png','SearchBox/lock@2x.png','SearchBox/unrefresh@2x.png'
 end
