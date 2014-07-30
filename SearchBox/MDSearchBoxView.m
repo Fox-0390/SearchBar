@@ -22,8 +22,8 @@
 {
     self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 30.0f)];
     if (self) {
-
-    [self initialization];
+        
+        [self initialization];
         
     }
     return self;
@@ -31,7 +31,7 @@
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
-     self=[super initWithCoder:aDecoder];
+    self=[super initWithCoder:aDecoder];
     [self initialization];
     return  self;
 }
@@ -56,12 +56,12 @@
 -(void)setIsHTTPS:(BOOL)isHTTPS
 {
     if(_isHTTPS!=isHTTPS)
-    
+        
     {
         _isHTTPS=isHTTPS;
-
+        
         [self CreateLock];
-            }
+    }
 }
 -(void)CreateLock;
 {
@@ -70,7 +70,7 @@
         self.lockImage.layer.opacity=ONE_VALUE;
     }
     else self.lockImage.layer.opacity=ZERO_VALUE;
-
+    
     CATransition *transition=[self generateAnimation];
     [self.leftImage.layer addAnimation:transition forKey:@"fadeAnimation"];
     [self.lockImage.layer addAnimation:transition forKey:@"fadeAnimation"];
@@ -91,17 +91,18 @@
     
     if(!_isEditing)
     {
-            _mode=mode;
-           if (_mode==MDSearchBoxViewSearchMode)
-                {
-               self.rightImage.alpha=ZERO_VALUE;
-                }
-            else
-            {
-              [self updateBrowserMode];
-                [self layoutSubviews];
-            }
+        _mode=mode;
+        if (_mode==MDSearchBoxViewSearchMode)
+        {
+            self.rightImage.alpha=ZERO_VALUE;
+        }
+        else
+        {
+            [self updateBrowserMode];
+            [self layoutSubviews];
+        }
     }
+    else self.rightImage.alpha=ZERO_VALUE;
     
 }
 -(void)updateBrowserMode
@@ -114,9 +115,9 @@
     {
         [self.rightImage setImage:[UIImage imageNamed:@"unrefresh"] forState:UIControlStateNormal];
     }
-   
+    
     [self runScaleAnimationOnView:self.rightImage duration:1.0 rotations:1.0 repeat:0];
-
+    
 }
 #pragma mark-initialization
 -(void)initialization
@@ -125,20 +126,20 @@
     self.isHTTPS=false;
     self.layer.cornerRadius = 5;
     self.layer.masksToBounds = YES;
-        //init lock image
+    //init lock image
     self.rightImage = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100,100)];
     [self.rightImage setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [self.rightImage addTarget:self action:@selector(onClickRightButton) forControlEvents:UIControlEventTouchUpInside];
     self.lockImage=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lock"]];
-  
+    
     self.leftImage=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lupa"]];
     
-
+    
     _isEditing=false;
     //init text Field
-     self.textfield=[[UICustomTextField alloc] initWithFrame:self.frame];
-     self.textLabel = [[UILabel alloc] initWithFrame:self.frame];
-     self.textfield.placeholder=@"Веб-поиск или имя сайта";
+    self.textfield=[[UICustomTextField alloc] initWithFrame:self.frame];
+    self.textLabel = [[UILabel alloc] initWithFrame:self.frame];
+    self.textfield.placeholder=@"Веб-поиск или имя сайта";
     [self.textfield addTarget:self action:@selector(textFieldShouldBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
     [self.textfield addTarget:self action:@selector(textFieldShouldEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
     [self.textfield addTarget:self action:@selector(textFieldEditingChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -158,7 +159,7 @@
 #pragma mark- layout
 -(void)layoutSubviews
 {
-       CGRect frameTextField = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    CGRect frameTextField = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.textLabel.frame =CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.textLabel.textAlignment=NSTextAlignmentCenter;
     //init left image
@@ -173,23 +174,26 @@
     
     //set rightImage
     //measure
-   frameTextField.size.width=  self.frame.size.width-frameTextField.origin.x;
-   
+    frameTextField.size.width=  self.frame.size.width-frameTextField.origin.x;
+    
     //set
     self.textfield.frame=frameTextField;
-
+    
     self.rightImage.frame=CGRectMake(self.frame.size.width-self.frame.size.height*1.5, self.frame.size.height/2-self.rightImage.frame.size.height/2,45, 30);
     NSLog(@"%@",NSStringFromCGRect(CGRectMake(self.frame.size.width-self.frame.size.height*1.5, self.frame.size.height/2-self.rightImage.frame.size.height/2,self.frame.size.height*1.5, self.frame.size.height)) );
-   
+    
     self.leftImage.frame =CGRectMake(frameTextField.origin.x-self.frame.size.height/2, self.frame.size.height/2,self.frame.size.height/2,self.frame.size.height/2);
     self.lockImage.frame=CGRectMake(self.textLabel.frame.origin.x-self.lockImage.center.x, self.textLabel.frame.origin.y,self.frame.size.height,self.frame.size.height);
     self.lockImage.alpha=ZERO_VALUE;
     self.lockImage.center=CGPointMake(10, self.textfield.frame.size.height/2);
-
+    
     if (_mode!=MDSearchBoxViewSearchMode) {
-        self.rightImage.alpha=ONE_VALUE;
+        if (_isEditing) {
+            self.rightImage.alpha=ZERO_VALUE;
+        } else
+            self.rightImage.alpha=ONE_VALUE;
     }
-   
+    
 }
 
 #pragma mark-tap right image
@@ -202,7 +206,7 @@
     else
     {
         [self.delegate stopLoading];
-     self.mode=MDSearchBoxViewBrowserIdleMode;
+        self.mode=MDSearchBoxViewBrowserIdleMode;
     }
 }
 #pragma mark-animation Editing
@@ -227,14 +231,14 @@
                          }
                          
                      }];
-
+    
 }
 #pragma mark-animation LostFocus
 -(void)LostFocusAnimation
 {
     _isEditing=false;
     self.textLabel.text=self.textfield.text;
-
+    
     self.textfield.userInteractionEnabled=TRUE;
     self.textfield.textColor=[UIColor clearColor];
     CGRect r = [self.textLabel.text boundingRectWithSize:self.textLabel.frame.size
@@ -246,13 +250,13 @@
     
     [UIView animateWithDuration:0.35 animations:
      ^{
-          self.textLabel.center=CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
-    }
-    completion:^(BOOL finished) {
-        if (_mode!=MDSearchBoxViewSearchMode) {
-            self.rightImage.alpha=ONE_VALUE;
-        }
-    }];
+         self.textLabel.center=CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+     }
+                     completion:^(BOOL finished) {
+                         if (_mode!=MDSearchBoxViewSearchMode) {
+                             self.rightImage.alpha=ONE_VALUE;
+                         }
+                     }];
 }
 
 #pragma mark-states settings
@@ -264,7 +268,7 @@
 
 -(void)browserStateLostFocus
 {
- //
+    //
     if(self.textfield.text.length>0)
     {
         [self LostFocusAnimation];
@@ -303,7 +307,7 @@
     [animation setDuration:0.20f];
     [animation setFillMode:kCAFillModeForwards];
     [animation setRemovedOnCompletion:NO];
-
+    
     
     [view.layer addAnimation:animation forKey:@"rotationAnimation"];
 }
@@ -315,14 +319,14 @@
 }
 
 -(void)setTextForField:(NSString *)textFromField
-            {
-    if (![_textForField isEqualToString:textFromField]&&!_isEditing)
+{
+    if (_textForField!=textFromField&&!_isEditing)
     {
         self.textfield.text=textFromField;
         self.textLabel.text=textFromField;
-         self.textLabel.alpha=ONE_VALUE;
+        self.textLabel.alpha=ONE_VALUE;
         
-         self.textfield.textColor=[UIColor clearColor];
+        self.textfield.textColor=[UIColor clearColor];
         if (_mode!=MDSearchBoxViewSearchMode)
             self.rightImage.alpha=ONE_VALUE;
         else self.rightImage.alpha=ZERO_VALUE;
@@ -335,25 +339,25 @@
     self.isHTTPS=false;
     
     if (self.mode==MDSearchBoxViewSearchMode) {
-            self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
+        self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
         [self searchStateEditing];
     }
     else
         [self browserStateEditing];
- }
+}
 
 - (void)textFieldShouldEndEditing:(UITextField *)textField
 {
     
     
     if (self.mode==MDSearchBoxViewSearchMode) {
-            self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
+        self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
         [self searchStateLostFocus];
     }
     else
         [self browserStateLostFocus];
-
-     
+    
+    
 }
 
 
@@ -369,13 +373,13 @@
     if(_mode!=MDSearchBoxViewSearchMode)
     {
         
-    if (_progress >= ONE_VALUE)
-    {
-       self.rightImage.alpha=1.0f;
+        if (_progress >= ONE_VALUE)
+        {
+            self.rightImage.alpha=1.0f;
+        }
+        else  self.rightImage.alpha=alpha;
     }
-    else  self.rightImage.alpha=alpha;
-    }
-        self.rightImage.userInteractionEnabled=_progress >= ONE_VALUE;
+    self.rightImage.userInteractionEnabled=_progress >= ONE_VALUE;
     self.userInteractionEnabled = _progress >= ONE_VALUE;
     self.textLabel.textColor = [UIColor colorWithRed:textColor green:textColor blue:textColor alpha:ONE_VALUE];
     self.backgroundColor=[UIColor colorWithWhite:1 alpha:alpha];
@@ -396,12 +400,12 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end

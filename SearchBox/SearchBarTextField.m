@@ -36,11 +36,7 @@
         searchIconFrame.origin.y = 8;
         self.icon.frame = searchIconFrame;
         [self addSubview:self.icon];
-        
-//        UIImage *bgImage = [[UIImage imageNamed:@"mainpage-search_bar_background"]
-//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 20, 0, 20)];
-//        [self setBackground:bgImage];
-        
+
         
         self.horizontalPadding =  25;
         self.deleteButtonOffset = self.deleteButtonOffset == 0 ? 24.0f : self.deleteButtonOffset;
@@ -79,31 +75,9 @@
     }
 
     CGFloat alpha = (progress - 0.6f) / 0.4f;
-//    self.backgroundColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:alpha];
-//    [[self.subviews objectAtIndex:0] setAlpha:alpha];
-    
     CGFloat textColor = (1.0f - alpha);
     self.textColor = [UIColor colorWithRed:textColor green:textColor blue:textColor alpha:1.0f];
-   
-//    CGRect searchFrame = self.frame;
-//    CGFloat newWidth = 304 - (1 - _progress) * 0.2 * 304;
-//    CGFloat newX = (320.0f - newWidth) / 2.0f;
-//    CGFloat newY = (TOPVIEW_NORMALSIZE - TOPVIEW_SMALLSIZE) * 0.5 * (1 - _progress);
-//    self.frame = CGRectMake(newX, newY, newWidth, searchFrame.size.height);
-    
-//    CGFloat fontSize = 12 + 2 * _progress;
-//    UIFont *font = [UIFont systemFontOfSize:fontSize];
-//    self.font = font;
-    
     self.userInteractionEnabled = progress >= 1.0f;
-    
-//    CGFloat backgroundColorHue = _progress;
-//    self.backgroundColor = [UIColor colorWithHue:backgroundColorHue saturation:0.67f brightness:0.86f alpha:1.0f];
-//    if (self.subviews.count > 1) {
-//        UIView *label = [self.subviews objectAtIndex:1];
-//        label.layer.transform = CATransform3DMakeScale(1.0f, 0.7f + _progress * 0.3f, 1.0f);
-//        label.layer.anchorPoint = CGPointMake(0.5, 0.5);
-//    }
     UIView *view = [self.subviews objectAtIndex:0];
     self.layer.anchorPoint = CGPointMake(0.5, 0.5);
     view.layer.opacity = alpha ;
@@ -112,16 +86,12 @@
             v.layer.opacity = alpha;
         }
     }
-//    _width = 180.0f + 100.0f * _progress;
-   
-//    CGFloat deltaY = (TOPVIEW_NORMALSIZE - TOPVIEW_SMALLSIZE) * 0.1 * (1 - _progress);
    
     CGFloat deltaY = (TOPVIEW_NORMALSIZE - TOPVIEW_SMALLSIZE + 18.0f) * (1.0f -_progress) * 0.5;
     CGAffineTransform translation = CGAffineTransformMakeTranslation(0, deltaY);
     CGAffineTransform scale = CGAffineTransformMakeScale(0.7f + progress * 0.3f, 0.7f + progress * 0.3f);
     
     self.layer.affineTransform = CGAffineTransformConcat(translation, scale);
-//    CGAffineTransform at = self.layer.affineTransform;
 
   [super layoutSubviews];
     
