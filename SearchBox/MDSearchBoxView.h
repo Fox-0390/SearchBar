@@ -8,19 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "UICustomTextField.h"
+#import "RPFloatingPlaceholderTextView.h"
 @class MDSearchBoxView;
 @protocol MDSearchBoxViewDelegate <NSObject>
 -(void)startRefresh;
 -(void)stopLoading;
 @end
-@interface MDSearchBoxView : UIView<UIApplicationDelegate>
+@interface MDSearchBoxView : UIView<UIApplicationDelegate,UITextInput>
 typedef enum {
     MDSearchBoxViewSearchMode,
     MDSearchBoxViewBrowserIdleMode,
     MDSearchBoxViewBrowserLoadingMode
     
 } UIMDSearchBoxViewMode;
-@property(nonatomic,strong) UICustomTextField *textfield;
+@property(nonatomic,strong) RPFloatingPlaceholderTextView *textfield;
 @property(nonatomic,strong) UIButton *rightImage;
 @property(nonatomic,strong) UIImageView *leftImage;
 @property(nonatomic,strong) UIImageView *lockImage;
