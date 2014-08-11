@@ -3,14 +3,14 @@ Pod::Spec.new do |s|
 
 
   s.name         = "SearchBar"
-  s.version      = "First_release"
+  s.version      = 'v.0.0.2'
   s.summary = "iOS control."
   s.homepage = "https://github.com/Fox-0390/SearchBar"
   s.license    = { :type => 'MIT', :file => 'LICENSE'}
   s.author     = { "Vladimir" => "bor-26@yandex.ru" }
   s.source     = {
       :git => 'https://github.com/Fox-0390/SearchBar.git',
-      :tag => 'First_release'
+      :tag => 'v.0.0.2'
     }
   s.ios.deployment_target = '7.0'
   s.requires_arc = true
