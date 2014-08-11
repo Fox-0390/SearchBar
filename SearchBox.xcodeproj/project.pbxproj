@@ -23,6 +23,8 @@
 		E74158E619599E6700D6137A /* MDSearchBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = E74158E519599E6700D6137A /* MDSearchBoxView.m */; };
 		E74158E91959A10100D6137A /* SearchBarTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E74158E71959A10100D6137A /* SearchBarTextField.m */; };
 		E74158EC1959AA5A00D6137A /* MDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E74158EB1959AA5A00D6137A /* MDViewController.m */; };
+		E7C319D2199907A1001B6C19 /* lock_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7C319D0199907A1001B6C19 /* lock_2@2x.png */; };
+		E7C319D3199907A1001B6C19 /* lock_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7C319D1199907A1001B6C19 /* lock_3@2x.png */; };
 		E7CC7A4D19865AAB0069BE9B /* lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7CC7A4919865AAB0069BE9B /* lock@2x.png */; };
 		E7CC7A4E19865AAB0069BE9B /* lupa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7CC7A4A19865AAB0069BE9B /* lupa@2x.png */; };
 		E7CC7A4F19865AAB0069BE9B /* refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E7CC7A4B19865AAB0069BE9B /* refresh@2x.png */; };
@@ -64,6 +66,8 @@
 		E74158E81959A10100D6137A /* SearchBarTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarTextField.h; sourceTree = "<group>"; };
 		E74158EA1959AA5A00D6137A /* MDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDViewController.h; sourceTree = "<group>"; };
 		E74158EB1959AA5A00D6137A /* MDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDViewController.m; sourceTree = "<group>"; };
+		E7C319D0199907A1001B6C19 /* lock_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_2@2x.png"; sourceTree = "<group>"; };
+		E7C319D1199907A1001B6C19 /* lock_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock_3@2x.png"; sourceTree = "<group>"; };
 		E7CC7A4919865AAB0069BE9B /* lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock@2x.png"; sourceTree = "<group>"; };
 		E7CC7A4A19865AAB0069BE9B /* lupa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lupa@2x.png"; sourceTree = "<group>"; };
 		E7CC7A4B19865AAB0069BE9B /* refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh@2x.png"; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 				E7CC7A4919865AAB0069BE9B /* lock@2x.png */,
 				E7CC7A4A19865AAB0069BE9B /* lupa@2x.png */,
 				E7CC7A4B19865AAB0069BE9B /* refresh@2x.png */,
+				E7C319D0199907A1001B6C19 /* lock_2@2x.png */,
+				E7C319D1199907A1001B6C19 /* lock_3@2x.png */,
 				E7CC7A4C19865AAB0069BE9B /* unrefresh@2x.png */,
 				E74158C21959975800D6137A /* MDAppDelegate.h */,
 				E74158C31959975800D6137A /* MDAppDelegate.m */,
@@ -259,8 +265,10 @@
 				E74158BE1959975800D6137A /* InfoPlist.strings in Resources */,
 				E7CC7A4D19865AAB0069BE9B /* lock@2x.png in Resources */,
 				E74158C61959975800D6137A /* Images.xcassets in Resources */,
+				E7C319D2199907A1001B6C19 /* lock_2@2x.png in Resources */,
 				E74158E319599E2D00D6137A /* Storyboard.storyboard in Resources */,
 				E7CC7A4F19865AAB0069BE9B /* refresh@2x.png in Resources */,
+				E7C319D3199907A1001B6C19 /* lock_3@2x.png in Resources */,
 				E7CC7A4E19865AAB0069BE9B /* lupa@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

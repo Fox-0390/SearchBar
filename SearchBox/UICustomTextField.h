@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UICustomTextField : UITextField
-
+- (void)selectTextInTextField:(UITextField *)textField range:(NSRange)range;
 @end

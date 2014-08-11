@@ -15,7 +15,6 @@
 #define ONE_VALUE 1.0f
 @implementation MDSearchBoxView
 
-
 @synthesize progress=_progress;
 
 - (id)initWithFrame:(CGRect)frame
@@ -28,7 +27,41 @@
     }
     return self;
 }
-
+-(void)setLockState:(UIMDLockState)lockState
+{
+    
+    self.lockImage.alpha=ZERO_VALUE;
+    if (lockState==MDLockGray) {
+        //set lock gray
+        [UIView animateWithDuration:0.35 animations:^{
+            self.lockImage.alpha=ONE_VALUE;
+            [self.lockImage setImage:[UIImage imageNamed:@"lock_2"] forState:UIControlStateNormal];
+        }];
+        
+        
+    }
+    if (lockState==MDLockGreen) {
+        //set lock green
+        [UIView animateWithDuration:0.35 animations:^{
+            self.lockImage.alpha=ONE_VALUE;
+            [self.lockImage setImage:[UIImage imageNamed:@"lock"] forState:UIControlStateNormal];
+        }];
+        
+    }
+    if (lockState==MDLockRed) {
+        //set lock red
+        [UIView animateWithDuration:0.35 animations:^{
+            self.lockImage.alpha=ONE_VALUE;
+            [self.lockImage setImage:[UIImage imageNamed:@"lock_3"] forState:UIControlStateNormal];
+            
+        }];
+    }
+    if (lockState==MDLockInvisible) {
+        //set image in left button invisible
+        self.lockImage.alpha=ZERO_VALUE;
+        
+    }
+}
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self=[super initWithCoder:aDecoder];
@@ -66,13 +99,12 @@
 -(void)CreateLock;
 {
     if (_isHTTPS) {
-        self.leftImage.layer.opacity=ZERO_VALUE;
+        
         self.lockImage.layer.opacity=ONE_VALUE;
     }
     else self.lockImage.layer.opacity=ZERO_VALUE;
     
     CATransition *transition=[self generateAnimation];
-    [self.leftImage.layer addAnimation:transition forKey:@"fadeAnimation"];
     [self.lockImage.layer addAnimation:transition forKey:@"fadeAnimation"];
 }
 
@@ -88,8 +120,7 @@
 
 -(void)setMode:(UIMDSearchBoxViewMode)mode
 {
-    
-    if(!_isEditing)
+    if(!self.textfield.isEditing)
     {
         _mode=mode;
         if (_mode==MDSearchBoxViewSearchMode)
@@ -99,7 +130,6 @@
         else
         {
             [self updateBrowserMode];
-            [self layoutSubviews];
         }
     }
     else self.rightImage.alpha=ZERO_VALUE;
@@ -130,67 +160,55 @@
     self.rightImage = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100,100)];
     [self.rightImage setImage:[UIImage imageNamed:@"refresh"] forState:UIControlStateNormal];
     [self.rightImage addTarget:self action:@selector(onClickRightButton) forControlEvents:UIControlEventTouchUpInside];
-    self.lockImage=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lock"]];
-    self.leftImage=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"lupa"]];
-    self.textfield.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _isEditing=false;
+    self.lockImage=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35,35)];
+    [self.lockImage setImage:[UIImage imageNamed:@"lock"] forState:UIControlStateNormal];
+    
+    [self setLockState:MDLockInvisible];
     //init text Field
-    //    self.textfield=[[UICustomTextField alloc] initWithFrame:self.frame];
-    self.textfield=[[RPFloatingPlaceholderTextView alloc] initWithFrame:self.frame];
+    self.textfield=[[UICustomTextField alloc] initWithFrame:self.frame];
+    self.textfield.autocapitalizationType=UITextAutocapitalizationTypeNone;
     self.textLabel = [[UILabel alloc] initWithFrame:self.frame];
     self.textfield.placeholder=@"Веб-поиск или имя сайта";
-    //    [self.textfield addTarget:self action:@selector(textFieldShouldBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
-    //    [self.textfield addTarget:self action:@selector(textFieldShouldEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
-    //    [self.textfield addTarget:self action:@selector(textFieldEditingChanged:) forControlEvents:UIControlEventEditingChanged];
+    [self.textfield addTarget:self action:@selector(textFieldShouldBeginEditing:) forControlEvents:UIControlEventEditingDidBegin];
+    [self.textfield addTarget:self action:@selector(textFieldShouldEndEditing:) forControlEvents:UIControlEventEditingDidEnd];
     [self.rightImage setUserInteractionEnabled:YES];
     self.textLabel.alpha=ZERO_VALUE;
     self.rightImage.alpha=ZERO_VALUE;
     [self.textLabel setBackgroundColor:[UIColor clearColor]];
     self.textLabel.textAlignment=NSTextAlignmentCenter;
-    //    self.textfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [self addSubview:self.textfield];
-    [self addSubview:self.textLabel];
-    [self addSubview:self.lockImage];
-    [self addSubview:self.rightImage];
-}
-- (NSString *)textInRange:(UITextRange *)range
-{
-    return @"sasda";
-}
-- (void)replaceRange:(UITextRange *)range withText:(NSString *)text
-{
-    
-}
-#pragma mark- layout
--(void)layoutSubviews
-{
+    self.textfield.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     CGRect frameTextField = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.textLabel.frame =CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     self.textLabel.textAlignment=NSTextAlignmentCenter;
-    //init left image
-    self.leftImage.frame=CGRectMake(self.textfield.bounds.origin.x-self.leftImage.frame.size.width, self.leftImage.frame.origin.y, self.bounds.size.height, self.bounds.size.height);
-    
     self.contentMode=UIViewContentModeScaleAspectFit;
-    
-    
-    //frames offsets
     frameTextField.origin.x=10.0;
-    
-    
-    //set rightImage
-    //measure
     frameTextField.size.width=  self.frame.size.width-frameTextField.origin.x;
-    
-    //set
     self.textfield.frame=frameTextField;
-    self.rightImage.frame=CGRectMake(self.frame.size.width-self.frame.size.height*1.5, self.frame.size.height/2-self.rightImage.frame.size.height/2,45, 30);
-    self.leftImage.frame =CGRectMake(frameTextField.origin.x-self.frame.size.height/2, self.frame.size.height/2,self.frame.size.height/2,self.frame.size.height/2);
-    self.lockImage.frame=CGRectMake(self.textLabel.frame.origin.x-self.lockImage.center.x, self.textLabel.frame.origin.y,self.frame.size.height,self.frame.size.height);
-    self.lockImage.alpha=ZERO_VALUE;
-    self.lockImage.center=CGPointMake(10, self.textfield.frame.size.height/2);
+    [self addSubview:self.textfield];
+    [self addSubview:self.textLabel];
+    //[self addSubview:self.lockImage];
+    [self insertSubview:self.lockImage aboveSubview:self.textLabel];
+    [self addSubview:self.rightImage];
+}
+
+-(void)ResetAllStates
+{
+    self.lockState=MDLockInvisible;
+    self.rightImage.alpha=ZERO_VALUE;
+}
+
+#pragma mark- layout
+-(void)layoutSubviews
+{
     
+    
+    self.rightImage.frame=CGRectMake(self.frame.size.width-self.frame.size.height*1.5, self.frame.size.height/2-self.rightImage.frame.size.height/2,45, 30);
+    self.lockImage.center=CGPointMake(self.rightImage.frame.size.height/2, self.textfield.frame.size.height/2);
+    if (self.lockState==MDLockInvisible) {
+        self.lockImage.alpha=ZERO_VALUE;
+    }
     if (_mode!=MDSearchBoxViewSearchMode) {
-        if (_isEditing) {
+        if (self.textfield.editing) {
             self.rightImage.alpha=ZERO_VALUE;
         } else
             self.rightImage.alpha=ONE_VALUE;
@@ -214,30 +232,37 @@
 #pragma mark-animation Editing
 -(void)EditingAnimation
 {
+    
     self.textfield.alpha=ONE_VALUE;
     self.textLabel.alpha=ONE_VALUE;
     self.textfield.layer.opacity=ZERO_VALUE;
     self.textfield.textColor=[UIColor blackColor];
-    CGRect r = [self.textLabel.text boundingRectWithSize:self.textLabel.frame.size
-                                                 options:NSStringDrawingUsesLineFragmentOrigin
-                                              attributes:@{NSFontAttributeName:[self.textLabel font]}
-                                                 context:nil];
-    CGRect rHttp = [[[self.textfield.text componentsSeparatedByString:self.textLabel.text]  objectAtIndex:0] boundingRectWithSize:self.textLabel.frame.size
-                                                                                                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                                                                                                       attributes:@{NSFontAttributeName:[self.textLabel font]}
-                                                                                                                          context:nil];
+    double rWidth=0.0f;
+    double rHttpWidth=0.0f ;
+    if(self.textfield.text&&self.textLabel.text)
+    {
+        rWidth= [self.textLabel.text boundingRectWithSize:self.textLabel.frame.size
+                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                               attributes:@{NSFontAttributeName:[self.textLabel font]}
+                                                  context:nil].size.width;
+        rHttpWidth= [[[self.textfield.text componentsSeparatedByString:self.textLabel.text]  objectAtIndex:0] boundingRectWithSize:self.textLabel.frame.size
+                                                                                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                                                                                        attributes:@{NSFontAttributeName:[self.textLabel font]}
+                                                                                                                           context:nil].size.width;
+    }
     if (![self.textfield.text isEqualToString:@""]) {
-        self.textfield.frame= CGRectMake(self.textLabel.frame.size.width/2-r.size.width/2-rHttp.size.width, self.textfield.frame.origin.y,self.textfield.frame.size.width,self.textfield.frame.size.height);
+        self.textfield.frame= CGRectMake(self.textLabel.frame.size.width/2-rWidth/2-rHttpWidth, self.textfield.frame.origin.y,self.textfield.frame.size.width,self.textfield.frame.size.height);
     }
     
     [UIView animateWithDuration:0.35
                      animations:^{
-                         // self.textfield.alpha=ONE_VALUE;
-                         self.textLabel.center=CGPointMake(r.size.width/2+10.0f+rHttp.size.width,self.textfield.frame.size.height/2-ONE_VALUE);
+                         
+                         self.textLabel.center=CGPointMake(rWidth/2+10.0f+rHttpWidth,self.textfield.frame.size.height/2-ONE_VALUE);
                          self.textfield.center=CGPointMake(self.textfield.frame.size.width/2+10.0f,self.textfield.frame.size.height/2);
                          self.textfield.layer.opacity=ONE_VALUE;
                          self.textLabel.layer.opacity=ZERO_VALUE;
                          self.rightImage.alpha=ZERO_VALUE;
+                         
                          
                      }
                      completion:^(BOOL finished) {
@@ -245,52 +270,80 @@
                          if (finished)
                          {
                              
-                             //   [self.textfield selectTextInTextField:self.textfield range:NSMakeRange(0, 0)];
                              
+                             [self.textfield selectTextInTextField:self.textfield range:NSMakeRange(0, 0)];
+                             [self.textfield selectAll:self.textfield.text];
                              self.textfield.textColor=[UIColor blackColor];
                              self.textLabel.alpha=ZERO_VALUE;
                              self.textLabel.center=CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
                          }
-                         
                      }];
     
 }
+
+
+
 #pragma mark-animation LostFocus
 -(void)LostFocusAnimation
 {
-    _isEditing=false;
-    self.textLabel.text=self.textfield.text;
     
-    self.textfield.userInteractionEnabled=TRUE;
-    self.textfield.textColor=[UIColor clearColor];
+    self.textfield.textColor=[UIColor blackColor];
     CGRect r = [self.textLabel.text boundingRectWithSize:self.textLabel.frame.size
                                                  options:NSStringDrawingUsesLineFragmentOrigin
                                               attributes:@{NSFontAttributeName:[self.textLabel font]}
                                                  context:nil];
-    self.textLabel.center=CGPointMake(r.size.width/2+10.0f,self.textfield.frame.size.height/2-1.0f);
-    self.textLabel.alpha=ONE_VALUE;
+    double rHttpWidth=0.0f;
+    CGRect rHttp;
+    if(self.textLabel.text)
+        rHttp = [[[self.textfield.text componentsSeparatedByString:self.textLabel.text]  objectAtIndex:0] boundingRectWithSize:self.textLabel.frame.size
+                                                                                                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                                                                                                    attributes:@{NSFontAttributeName:[self.textLabel font]}
+                                                                                                                       context:nil];
+    if (rHttp.size.width!=0.0f) {
+        rHttpWidth=rHttp.size.width;
+    }
     
+    self.textLabel.center=CGPointMake(r.size.width/2+10.0f+rHttp.size.width,self.textfield.frame.size.height/2-ONE_VALUE);
+    self.textLabel.alpha=ZERO_VALUE;
+    self.textfield.alpha=ONE_VALUE;
     [UIView animateWithDuration:0.35 animations:
      ^{
+         self.textfield.center=CGPointMake(self.frame.size.width/2+self.textfield.center.x-rHttpWidth-r.size.width/2, self.frame.size.height/2);
          self.textLabel.center=CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+         self.textfield.alpha=ZERO_VALUE;
+         self.textLabel.alpha=ONE_VALUE;
      }
                      completion:^(BOOL finished) {
-                         if (_mode!=MDSearchBoxViewSearchMode) {
+                         
+                         
+                         if (finished) {
+                             self.textfield.layer.opacity=ZERO_VALUE;
+                             self.textfield.alpha=ONE_VALUE;
+                             self.textfield.center=CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+                             self.textfield.textColor=[UIColor clearColor];
+                         }
+                         if (_mode!=MDSearchBoxViewSearchMode)
+                         {
                              self.rightImage.alpha=ONE_VALUE;
+                             if(self.lockState!=MDLockInvisible&&!self.textfield.editing)
+                                 self.lockImage.alpha=ONE_VALUE;
+                             
+                             
                          }
                      }];
+    
 }
 
 #pragma mark-states settings
 -(void)browserStateEditing
 {
-    //self.textfield.clearButtonMode= UITextFieldViewModeWhileEditing;
+    self.textfield.clearButtonMode= UITextFieldViewModeWhileEditing;
     [self EditingAnimation];
 }
 
 -(void)browserStateLostFocus
 {
-    //
+    
     if(self.textfield.text.length>0)
     {
         [self LostFocusAnimation];
@@ -304,12 +357,10 @@
 
 -(void)searchStateLostFocus
 {
-    self.leftImage.alpha=ZERO_VALUE;
     if (self.textfield.text.length>0)
     {
         [self LostFocusAnimation];
     }
-    else self.leftImage.layer.opacity=ONE_VALUE;
 }
 
 -(void)searchStateEditing
@@ -329,18 +380,15 @@
     [animation setDuration:0.20f];
     [animation setFillMode:kCAFillModeForwards];
     [animation setRemovedOnCompletion:NO];
+    
+    
     [view.layer addAnimation:animation forKey:@"rotationAnimation"];
 }
 
-#pragma mark-NSString textFromTExtField
--(void)textFieldEditingChanged:(UITextField *)textField
-{
-    //self.textForField=textField.text;
-}
 
 -(void)setTextForField:(NSString *)textFromField
 {
-    if (![_textForField isEqualToString:textFromField]&&!_isEditing)
+    if (![_textForField isEqualToString:textFromField]&&!self.textfield.isEditing)
     {
         self.textfield.text=textFromField;
         self.textLabel.text=textFromField;
@@ -355,11 +403,11 @@
 
 - (void)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    _isEditing=TRUE;
-    self.isHTTPS=false;
     
+    self.isHTTPS=false;
+    self.lockImage.alpha=ZERO_VALUE;
     if (self.mode==MDSearchBoxViewSearchMode) {
-        // self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
+        self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
         [self searchStateEditing];
     }
     else
@@ -371,7 +419,7 @@
     
     
     if (self.mode==MDSearchBoxViewSearchMode) {
-        // self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
+        self.textfield.clearButtonMode=UITextFieldViewModeWhileEditing;
         [self searchStateLostFocus];
     }
     else
@@ -392,7 +440,6 @@
     CGFloat textColor = (ONE_VALUE - alpha);
     if(_mode!=MDSearchBoxViewSearchMode)
     {
-        
         if (_progress >= ONE_VALUE)
         {
             self.rightImage.alpha=1.0f;
